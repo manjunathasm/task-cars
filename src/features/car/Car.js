@@ -17,6 +17,17 @@ export function Car() {
     dispatch(setCarData(CarsData));
   };
 
+  // function to format price to kilo(K) and million(M)
+  const formatPrice = (amt) => {
+    if (amt > 1000 && amt < 1000000) {
+      return `${parseFloat((amt / 1000).toFixed(2))}K`;
+    }
+    if (amt > 1000000) {
+      return `${parseFloat((amt / 1000000).toFixed(2))}M`;
+    }
+    return amt;
+  };
+
   // function return details of car which is highest in the list
   /**
    *
@@ -35,7 +46,9 @@ export function Car() {
         price: 0,
       }
     );
-    return `${car.brand} ${car.modal} ${car.variant} ${car.body_style} - Php ${car.price}`;
+    return `${car.brand} ${car.modal} ${car.variant} ${
+      car.body_style
+    } - Php ${formatPrice(car.price)}`;
   };
 
   // function return cars are below 700000 from list
@@ -52,7 +65,7 @@ export function Car() {
       <p key={`${car.brand}-${car.modal}-${car.variant}-${car.body_style}`}>
         {`${idx + 1}. ${car.brand} ${car.modal} ${car.variant} ${
           car.body_style
-        } - Php ${car.price}`}
+        } - Php ${formatPrice(car.price)}`}
       </p>
     ));
   };
@@ -87,7 +100,7 @@ export function Car() {
     const total = cars.reduce((acc, item) => {
       return item.body_style === "Hatchback" ? acc + item.price : acc;
     }, 0);
-    return `Php ${total}`;
+    return `Php ${formatPrice(total)}`;
   };
 
   // function return total price of all Sedan cars
@@ -99,7 +112,7 @@ export function Car() {
     const total = cars.reduce((acc, item) => {
       return item.body_style === "Sedan" ? acc + item.price : acc;
     }, 0);
-    return `Php ${total}`;
+    return `Php ${formatPrice(total)}`;
   };
 
   return (
